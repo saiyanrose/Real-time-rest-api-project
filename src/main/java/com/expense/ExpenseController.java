@@ -63,9 +63,10 @@ public class ExpenseController {
 		return expenseService.findByCategory(category,pageable).toList();
 	}
 	
-	@GetMapping("/expense/name")
-	public List<Expense>byKeyword(@RequestParam("name")String name,Pageable pageable){
-		return expenseService.findByKeyword(name, pageable).toList();
-	}	
+	/*
+	 * @GetMapping("/expense/name") public
+	 * List<Expense>byKeyword(@RequestParam("name")String name,Pageable pageable){
+	 * return expenseService.findByKeyword(name, pageable).toList(); }
+	 */
 	
 }

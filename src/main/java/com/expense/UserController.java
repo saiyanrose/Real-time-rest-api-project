@@ -11,11 +11,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,20 +34,20 @@ public class UserController {
 		return new ResponseEntity<Users>(userService.saveUser(users), HttpStatus.CREATED);
 	}
 
-	@GetMapping("/user/{id}")
-	public ResponseEntity<Users> read(@PathVariable("id") Integer id) {
-		return new ResponseEntity<Users>(userService.read(id), HttpStatus.OK);
+	@GetMapping("/user/profile")
+	public ResponseEntity<Users> read() {
+		return new ResponseEntity<Users>(userService.read(), HttpStatus.OK);
 	}
 
-	@PutMapping("/user/{id}")
-	public ResponseEntity<Users> update(@RequestBody Users users, @PathVariable("id") Integer id) {
-		return new ResponseEntity<Users>(userService.update(users, id), HttpStatus.OK);
+	@PutMapping("/user/profile")
+	public ResponseEntity<Users> update(@RequestBody Users users) {
+		return new ResponseEntity<Users>(userService.update(users), HttpStatus.OK);
 	}
 
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	@DeleteMapping("/user")
-	public void delete(@RequestParam("id") Integer id) {
-		userService.delete(id);
+	@DeleteMapping("/user/delete")
+	public void delete() {
+		userService.delete();
 	}
 	
 	@PostMapping("/login")

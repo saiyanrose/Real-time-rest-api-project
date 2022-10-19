@@ -17,12 +17,15 @@ public class ExpenseService {
 	@Autowired
 	private ExpenseReposiotry  expenseReposiotry;	
 	
+	@Autowired
+	private UserService userService;
+	
 	public Page<Expense>allExpense(Pageable pageable){
-		return expenseReposiotry.findAll(pageable);
+		return expenseReposiotry.findExpenseById(userService.loggedInUser().getId(), pageable);
 	}
 	
 	public Expense getById(Integer id) {
-		Optional<Expense>expense=expenseReposiotry.findById(id);
+		Optional<Expense>expense=expenseReposiotry.findByUserIdAndId(userService.loggedInUser().getId(), id);
 		if(expense.isPresent()) {
 			return expense.get();
 		}else {
@@ -42,6 +45,7 @@ public class ExpenseService {
 	}
 
 	public void save(Expense expense) {
+		expense.setUsers(userService.loggedInUser());
 		expenseReposiotry.save(expense);		
 	}
 	
@@ -55,12 +59,14 @@ public class ExpenseService {
 	}
 	
 	public Page<Expense>findByCategory(String category,Pageable pageable){
-		return expenseReposiotry.findByCategory(category,pageable);
+		return expenseReposiotry.findByUserAndCategory(userService.loggedInUser().getId(),category,pageable);
 	}
 	
-	public Page<Expense>findByKeyword(String keyword,Pageable pageable){
-		return expenseReposiotry.findByName(keyword, pageable);
-	}	
+	/*
+	 * public Page<Expense>findByKeyword(String keyword,Pageable pageable){ return
+	 * expenseReposiotry.findByUserIdAndName(userService.loggedInUser().getId(),
+	 * keyword,pageable); }
+	 */	
 	
 	
 }
