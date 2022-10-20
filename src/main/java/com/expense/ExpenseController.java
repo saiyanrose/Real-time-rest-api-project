@@ -69,4 +69,13 @@ public class ExpenseController {
 	 * return expenseService.findByKeyword(name, pageable).toList(); }
 	 */
 	
+	//JWT Token
+	//json web token
+	//not language depedent
+	//it follows stateless authentication mechanism(not store session in http req)
+	
+	//contains header:algorithm and token type
+	//contains payload:data
+	//contains signature(validate first 2 parts)
+	
 }
