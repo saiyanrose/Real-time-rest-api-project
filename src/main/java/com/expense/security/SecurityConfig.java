@@ -7,8 +7,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @SuppressWarnings("deprecation")
 @Configuration
@@ -17,6 +19,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private CustomerUserDetailService userDetailService;	
 	
+	@Bean
+	public JwtFilter filter() {
+		return new JwtFilter();
+	}
+	
+	//not maintain session
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
@@ -26,7 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.antMatchers("/register","/login").permitAll()
 			.anyRequest().authenticated()
 			.and()
-			.httpBasic();		 
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+			http.addFilterBefore(filter(),UsernamePasswordAuthenticationFilter.class);
+			http.httpBasic();		 
 	}
 
 	@Override
